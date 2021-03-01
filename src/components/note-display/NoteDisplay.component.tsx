@@ -1,23 +1,22 @@
 import React from 'react';
-import { ReactComponent as Arrow } from './arrow.svg';
 import { ShiftNote } from '../../models';
-import styled, { keyframes, css } from 'styled-components';
+import styled from 'styled-components';
+import type {} from "styled-components/cssprop";
 
 interface Props {
     note: ShiftNote;
 }
 interface State {
     showComments: boolean;
-    initialClick: boolean;
 }
 
 const DisplayContainer = styled.div<Props>`
     display: grid;
-    grid-template-columns: 1fr 50fr 1fr;
+    grid-template-columns: 50fr 1fr;
     gap: 0.5rem;
     grid-template-areas:
-        "arrow text author"
-        "arrow comments date";
+        "text author"
+        "comments date";
     padding: 1rem;
     margin: 1rem;
     
@@ -49,48 +48,19 @@ const Comments = styled.div`
     display: hidden;
 `
 
-const rotate = keyframes`
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(90deg);
-    }
-`
-
-const rotateRight = css`
-    animation-name: ${rotate};
-    animation-duration: 0.75s;
-    animation-direction: normal;
-`
-
-const rotateLeft = css`
-    animation-name: ${rotate};
-    animation-duration: 0.75s;
-    animation-direction: reverse;
-`
-
 export default class NoteDisplay extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = { 
             showComments: false,
-            initialClick: false
         };
         this.toggleComments = this.toggleComments.bind(this);
     }
 
     private toggleComments() {
-        let i = this.state.initialClick;
-
-        if (!i) {
-            
-        }
 
         this.setState({ 
             showComments: !this.state.showComments,
-            initialClick: i ? i : !i
         });
         
     }
@@ -98,19 +68,22 @@ export default class NoteDisplay extends React.Component<Props, State> {
     render() {
         let note = this.props.note;
         let { createdBy, text, createdOn, comments } = note;
+        let commentRows;
+
+        if (comments) {
+            commentRows = comments.map((comment) => {
+                return <div>{comment}</div>
+            })
+        }
         return (
             <DisplayContainer data-testid="display-container" note={note} onClick={this.toggleComments}>
-                {
-                    comments && 
-                    comments.length > 0 &&
-                    <Arrow />
-                }
+                
                 <Text>{text}</Text>
                 <Author>{createdBy}</Author>
                 <StyledDate>{createdOn.toISOString()}</StyledDate>
                 {
                     comments && this.state.showComments &&
-                    <Comments>{comments}</Comments>
+                    <Comments>{commentRows}</Comments>
                 }
             </DisplayContainer>
         )
