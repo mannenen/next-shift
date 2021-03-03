@@ -6,7 +6,7 @@ import { note, closedNote, followupNote } from './test-notes';
 describe('NoteDisplay tests', () => {
     test('renders note in cleartext if not closed', () => {
         render(<NoteDisplay note={note} />);
-        let textElement = screen.getByText("Test note");
+        let textElement = screen.getByText("This is a regular, active note. It is not pinned and no followup is required. It has no comments.");
         expect(textElement).toBeTruthy();
 
         textElement = screen.getByTestId('display-container');
@@ -15,7 +15,7 @@ describe('NoteDisplay tests', () => {
     
     test('renders note with strikethrough if closed', () => {
         render(<NoteDisplay note={closedNote} />);
-        let element = screen.getByText("Test note");
+        let element = screen.getByText("This note has been closed, which means the information contained within it is no longer relevant.");
         expect(element).toBeTruthy();
 
         element = screen.getByTestId('display-container');

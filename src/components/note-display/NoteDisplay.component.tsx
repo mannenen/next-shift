@@ -19,6 +19,10 @@ const DisplayContainer = styled.div<Props>`
         "comments date";
     padding: 1rem;
     margin: 1rem;
+
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 2px 2px;
     
     ${props => props.note.flags.followup ? "background-color: yellow;" : ""}
     ${props => props.note.flags.closed ? 
@@ -26,6 +30,10 @@ const DisplayContainer = styled.div<Props>`
         "background-color: grey;"           +
         "color: lightgrey;" : 
         ""
+    }
+
+    &:hover {
+
     }
 `
 
@@ -82,8 +90,10 @@ export default class NoteDisplay extends React.Component<Props, State> {
                 <Author>{createdBy}</Author>
                 <StyledDate>{createdOn.toISOString()}</StyledDate>
                 {
-                    comments && this.state.showComments &&
-                    <Comments>{commentRows}</Comments>
+                    comments && !this.state.showComments && <div>Comments ({comments.length})</div>
+                }
+                {
+                    comments && this.state.showComments && <Comments>{commentRows}</Comments>
                 }
             </DisplayContainer>
         )
