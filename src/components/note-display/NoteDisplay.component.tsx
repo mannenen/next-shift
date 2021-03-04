@@ -22,7 +22,7 @@ const DisplayContainer = styled.div<Props>`
 
     border: 1px solid black;
     border-radius: 5px;
-    box-shadow: 2px 2px;
+    
     
     ${props => props.note.flags.followup ? "background-color: yellow;" : ""}
     ${props => props.note.flags.closed ? 
@@ -31,9 +31,9 @@ const DisplayContainer = styled.div<Props>`
         "color: lightgrey;" : 
         ""
     }
-
+    
     &:hover {
-
+        box-shadow: 2px 2px;
     }
 `
 
