@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import NoteDisplay from './NoteDisplay.component';
-import { note, closedNote, followupNote } from './test-notes';
+import { note, closedNote, followupNote, commentNote } from './test-notes';
 
 describe('NoteDisplay tests', () => {
     test('renders note in cleartext if not closed', () => {
@@ -30,5 +30,14 @@ describe('NoteDisplay tests', () => {
         expect(textElement).toBeTruthy();
         expect(textElement).toHaveStyle("background-color: yellow");
     });
+
+    test('click note with comments toggles comments', () => {
+        render(<NoteDisplay note={commentNote} />);
+        const element = screen.getByTestId('display-container');
+        expect(element).toBeTruthy();
+        expect(element).not.toHaveTextContent("A third comment");
+        element.click();
+        expect(element).toHaveTextContent("A third comment");
+    })
 })
 

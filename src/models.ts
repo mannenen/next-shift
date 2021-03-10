@@ -4,7 +4,6 @@ export interface ShiftNote {
     createdBy: string;
     createdOn: Date;
     comments?: string[];
-    relatedTo?: "Support Case" | "Flash Notice" | "Telco Shit" | "Facilities" | undefined;
 }
 
 export interface NoteFlag {
@@ -13,8 +12,14 @@ export interface NoteFlag {
     followup: boolean;
 }
 
+export interface GetAllNotesOptions {
+    includeClosed?: boolean,
+    sort?: "asc" | "desc"
+}
+
 export interface NoteTransferService {
     getNote(id: string): ShiftNote;
     updateField<K extends keyof ShiftNote>(id: string, k: K, v: ShiftNote[K]): ShiftNote;
-    (): ShiftNote[];
+    getAllNotes(options: GetAllNotesOptions): ShiftNote[];
+    getNotesWithFlag(flag: keyof NoteFlag): ShiftNote[];
 }

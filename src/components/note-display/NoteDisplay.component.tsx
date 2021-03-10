@@ -79,8 +79,8 @@ export default class NoteDisplay extends React.Component<Props, State> {
         let commentRows;
 
         if (comments) {
-            commentRows = comments.map((comment) => {
-                return <div>{comment}</div>
+            commentRows = comments.map((comment, index) => {
+                return <div key={index}>{comment}</div>
             })
         }
         return (
